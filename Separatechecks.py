@@ -52,10 +52,10 @@ def main():
 
     # [디자인 설정]
     st.markdown("""
-        <style>
+       <style>
         .main-title { text-align: center; }
 
-        /* 1. 일반 버튼들 (화살표) : 하얗게 유지 */
+        /* 1. 일반 버튼들 (화살표) */
         button[kind="secondary"], 
         button[data-testid*="secondary"] {
             background-color: white !important; 
@@ -63,7 +63,7 @@ def main():
             border: 1px solid #cccccc !important;
         }
 
-        /* 2. ★제출 버튼, 네 버튼 등★ : Streamlit의 고집을 꺾는 완벽한 초록색 강제! */
+        /* 2. 제출 버튼 (초록색 강제!) */
         button[kind="primary"], 
         button[data-testid*="primary"] {
             background-color: #28a745 !important;
@@ -71,7 +71,7 @@ def main():
             border: 1px solid #28a745 !important;
         }
 
-        /* 3. 초기화 버튼만 콕 집어서 회색 만들기 */
+        /* 3. 초기화 버튼 (회색) */
         div[data-testid*="stHorizontalBlock"]:last-of-type div[data-testid*="column"]:first-child button {
             background-color: #e0e0e0 !important;
             color: black !important;
@@ -81,6 +81,24 @@ def main():
         div[data-testid*="stHorizontalBlock"] button {
             display: block;
             margin: 0 auto;
+        }
+
+        /* 📱 5. [모바일 최적화] 핸드폰 화면에서 깨지지 않게 방어하기 */
+        @media screen and (max-width: 768px) {
+            /* 왼쪽 박스 안쪽에 있는 단(column)들은 모바일에서도 무조건 가로(row)로 한 줄 유지! */
+            div[data-testid="column"] div[data-testid="stHorizontalBlock"] {
+                flex-direction: row !important;
+                gap: 5px !important; /* 모바일에서는 간격을 살짝 줄임 */
+            }
+            /* 가로로 찌그러지지 않게 1:1 비율로 골고루 분배 */
+            div[data-testid="column"] div[data-testid="stHorizontalBlock"] > div[data-testid="column"] {
+                width: auto !important;
+                flex: 1 1 0% !important;
+            }
+            /* 핸드폰 화면에 쏙 들어가도록 버튼 좌우 여백을 줄임 */
+            div[data-testid*="stHorizontalBlock"] button {
+                padding: 0px 5px !important; 
+            }
         }
         </style>
     """, unsafe_allow_html=True)
