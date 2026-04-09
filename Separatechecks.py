@@ -198,7 +198,7 @@ def main():
                 else:
                     st.markdown(f"#### 1인당 금액: :green[{int(exact_per_person):,}원]")
             else:
-                st.info("왼쪽 박스에 값을 입력하고 제출을 눌러주세요.")
+                st.info("금액과 인원수를 입력하고 제출을 눌러주세요.")
 
 
 if __name__ == "__main__":
