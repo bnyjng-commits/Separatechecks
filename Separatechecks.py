@@ -55,7 +55,7 @@ def main():
        <style>
         .main-title { text-align: center; }
 
-        /* 1. 일반 버튼들 (화살표) */
+        /* 1. 일반 버튼들 (하얀색 유지) */
         button[kind="secondary"], 
         button[data-testid*="secondary"] {
             background-color: white !important; 
@@ -63,7 +63,7 @@ def main():
             border: 1px solid #cccccc !important;
         }
 
-        /* 2. 제출 버튼 (초록색 강제!) */
+        /* 2. 제출/추첨 버튼 (초록색 강제) */
         button[kind="primary"], 
         button[data-testid*="primary"] {
             background-color: #28a745 !important;
@@ -83,21 +83,26 @@ def main():
             margin: 0 auto;
         }
 
-        /* 📱 5. [모바일 최적화] 핸드폰 화면에서 깨지지 않게 방어하기 */
+        /* 📱 5. [모바일 완벽 최적화] 핸드폰에서 탑처럼 쌓이는 현상 원천 차단! */
         @media screen and (max-width: 768px) {
-            /* 왼쪽 박스 안쪽에 있는 단(column)들은 모바일에서도 무조건 가로(row)로 한 줄 유지! */
+            /* (1) 내부 박스들은 무조건 한 줄(row)로 붙여놓기! 줄바꿈 금지! */
             div[data-testid="column"] div[data-testid="stHorizontalBlock"] {
+                flex-wrap: nowrap !important;
                 flex-direction: row !important;
-                gap: 5px !important; /* 모바일에서는 간격을 살짝 줄임 */
+                align-items: center !important; /* 위아래 수직 중앙 정렬까지! */
             }
-            /* 가로로 찌그러지지 않게 1:1 비율로 골고루 분배 */
+            
+            /* (2) [가장 중요] 모바일에서 강제로 100% 넓이가 되는 Streamlit 고집 꺾기! */
             div[data-testid="column"] div[data-testid="stHorizontalBlock"] > div[data-testid="column"] {
+                min-width: 0 !important;  /* 이 한 줄이 3층 탑을 1층으로 만들어줍니다! */
                 width: auto !important;
                 flex: 1 1 0% !important;
             }
-            /* 핸드폰 화면에 쏙 들어가도록 버튼 좌우 여백을 줄임 */
-            div[data-testid*="stHorizontalBlock"] button {
-                padding: 0px 5px !important; 
+
+            /* (3) 좁은 핸드폰 화면에서 화살표나 글씨가 잘리지 않게 버튼 양옆 여백 줄이기 */
+            div[data-testid="column"] div[data-testid="stHorizontalBlock"] button {
+                padding-left: 5px !important;
+                padding-right: 5px !important;
             }
         }
         </style>
