@@ -52,57 +52,46 @@ def main():
 
     # [디자인 설정]
     st.markdown("""
-       <style>
+        <style>
         .main-title { text-align: center; }
 
-        /* 1. 일반 버튼들 (하얀색 유지) */
-        button[kind="secondary"], 
-        button[data-testid*="secondary"] {
+        /* 1. 기본 버튼 스타일 */
+        button[data-testid*="baseButton-secondary"] {
             background-color: white !important; 
             color: black !important;
             border: 1px solid #cccccc !important;
         }
-
-        /* 2. 제출/추첨 버튼 (초록색 강제) */
-        button[kind="primary"], 
-        button[data-testid*="primary"] {
+        button[data-testid*="baseButton-primary"] {
             background-color: #28a745 !important;
             color: white !important;
-            border: 1px solid #28a745 !important;
+            border: none !important;
         }
 
-        /* 3. 초기화 버튼 (회색) */
+        /* 2. 초기화 버튼 (회색) */
         div[data-testid*="stHorizontalBlock"]:last-of-type div[data-testid*="column"]:first-child button {
             background-color: #e0e0e0 !important;
-            color: black !important;
         }
 
-        /* 4. 스테퍼 버튼들 중앙 정렬 */
-        div[data-testid*="stHorizontalBlock"] button {
-            display: block;
-            margin: 0 auto;
-        }
-
-        /* 📱 5. [모바일 완벽 최적화] 핸드폰에서 탑처럼 쌓이는 현상 원천 차단! */
+        /* 📱 3. 모바일에서 강제로 세로로 쌓이는 현상 완벽 방어 */
         @media screen and (max-width: 768px) {
-            /* (1) 내부 박스들은 무조건 한 줄(row)로 붙여놓기! 줄바꿈 금지! */
-            div[data-testid="column"] div[data-testid="stHorizontalBlock"] {
-                flex-wrap: nowrap !important;
+            /* 모든 가로 블록을 강제로 한 줄 유지 */
+            div[data-testid="stHorizontalBlock"] {
+                display: flex !important;
                 flex-direction: row !important;
-                align-items: center !important; /* 위아래 수직 중앙 정렬까지! */
+                flex-wrap: nowrap !important;
+                align-items: center !important;
             }
             
-            /* (2) [가장 중요] 모바일에서 강제로 100% 넓이가 되는 Streamlit 고집 꺾기! */
-            div[data-testid="column"] div[data-testid="stHorizontalBlock"] > div[data-testid="column"] {
-                min-width: 0 !important;  /* 이 한 줄이 3층 탑을 1층으로 만들어줍니다! */
-                width: auto !important;
+            /* 내부 컬럼들이 100% 넓이가 되지 않도록 차단 */
+            div[data-testid="column"] {
+                min-width: 0 !important;
                 flex: 1 1 0% !important;
             }
-
-            /* (3) 좁은 핸드폰 화면에서 화살표나 글씨가 잘리지 않게 버튼 양옆 여백 줄이기 */
-            div[data-testid="column"] div[data-testid="stHorizontalBlock"] button {
-                padding-left: 5px !important;
-                padding-right: 5px !important;
+            
+            /* 버튼 안의 글자가 잘리지 않게 여백 최소화 */
+            button {
+                padding: 0px 2px !important;
+                font-size: 0.8rem !important; /* 글씨가 크면 깨지므로 살짝 줄임 */
             }
         }
         </style>
@@ -123,7 +112,7 @@ def main():
             with label_col:
                 st.markdown("<div style='margin-top: 5px;'><b>팁/서비스 비율(%)</b></div>", unsafe_allow_html=True)
             with stepper_col:
-                btn_down, text_val, btn_up = st.columns([1, 1, 1])
+                btn_down, text_val, btn_up = st.columns([1, 1, 1], gap="small")
                 btn_down.button("▼", on_click=decrease_tip, key="down_btn")
                 text_val.markdown(
                     f"<div style='text-align: center; margin-top: 5px; background-color: white; border: 1px solid #cccccc; border-radius: 4px; padding: 2px;'><b>{st.session_state.tip_slider}</b></div>",
@@ -133,7 +122,7 @@ def main():
             st.slider("팁", min_value=0, max_value=20, key="tip_slider", label_visibility="collapsed")
             st.write("")
 
-            btn_col_left, btn_col_right = st.columns(2)
+            btn_col_left, btn_col_right = st.columns(2, gap="small")
             with btn_col_left:
                 st.button("초기화", on_click=reset_all, use_container_width=True)
             with btn_col_right:
