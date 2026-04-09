@@ -53,46 +53,35 @@ def main():
     # [디자인 설정]
     st.markdown("""
         <style>
-        .main-title { text-align: center; }
+        /* 1. 제목 중앙 정렬 */
+        .main-title {
+            text-align: center;
+        }
 
-        /* 1. 기본 버튼 스타일 */
+        /* 2. 일반 버튼들 (화살표, 초기화) : 하얀색/회색 */
         button[data-testid*="baseButton-secondary"] {
             background-color: white !important; 
             color: black !important;
             border: 1px solid #cccccc !important;
         }
+
+        /* 3. ★제출/추첨 버튼★ : 무조건 초록색 */
         button[data-testid*="baseButton-primary"] {
             background-color: #28a745 !important;
             color: white !important;
             border: none !important;
         }
 
-        /* 2. 초기화 버튼 (회색) */
+        /* 4. 초기화 버튼만 콕 집어서 회색 만들기 */
         div[data-testid*="stHorizontalBlock"]:last-of-type div[data-testid*="column"]:first-child button {
             background-color: #e0e0e0 !important;
+            color: black !important;
         }
 
-        /* 📱 3. 모바일에서 강제로 세로로 쌓이는 현상 완벽 방어 */
-        @media screen and (max-width: 768px) {
-            /* 모든 가로 블록을 강제로 한 줄 유지 */
-            div[data-testid="stHorizontalBlock"] {
-                display: flex !important;
-                flex-direction: row !important;
-                flex-wrap: nowrap !important;
-                align-items: center !important;
-            }
-            
-            /* 내부 컬럼들이 100% 넓이가 되지 않도록 차단 */
-            div[data-testid="column"] {
-                min-width: 0 !important;
-                flex: 1 1 0% !important;
-            }
-            
-            /* 버튼 안의 글자가 잘리지 않게 여백 최소화 */
-            button {
-                padding: 0px 2px !important;
-                font-size: 0.8rem !important; /* 글씨가 크면 깨지므로 살짝 줄임 */
-            }
+        /* 5. 스테퍼 버튼들(화살표) 중앙 정렬 */
+        div[data-testid*="stHorizontalBlock"] button {
+            display: block;
+            margin: 0 auto;
         }
         </style>
     """, unsafe_allow_html=True)
